@@ -6,13 +6,9 @@ using System.Xml.Serialization;
 
 namespace ExpressProfiler
 {
-
-
-
+    
     public partial class TraceProperties : Form
     {
-
-
         public enum StringFilterCondition
         {
             Like,
@@ -98,7 +94,9 @@ namespace ExpressProfiler
                                         BatchCompleted = true,
                                         RPCCompleted = true,
                                         StartTime =  true,
-                                        EndTime = true
+                                        EndTime = true, 
+                                        DatabaseName = true,
+                                        ApplicationName = true
                                     };
                 Filters = new TraceFilters
                               {
@@ -285,7 +283,7 @@ namespace ExpressProfiler
         
         
 
-                [Serializable]
+        [Serializable]
         public class TraceFilters
         {
 

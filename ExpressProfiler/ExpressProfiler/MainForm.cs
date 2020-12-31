@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -16,12 +15,11 @@ using System.Xml;
 using System.Xml.Serialization;
 using ExpressProfiler.EventComparers;
 
-
 namespace ExpressProfiler
 {
     public partial class MainForm : Form
     {
-        internal const string versionString = "Express Profiler v2.2";
+        internal const string versionString = "Phils Express Profiler v2.2";
 
         private class PerfInfo
         {
@@ -82,12 +80,20 @@ namespace ExpressProfiler
             m_currentsettings = GetDefaultSettings();
             ParseCommandLine();
             InitLV();
+            SetDefaults();
             edServer.Text = m_servername;
             edUser.Text = m_username;
             edPassword.Text = m_userpassword;
             tbAuth.SelectedIndex = String.IsNullOrEmpty(m_username)?0:1;
             if(m_autostart) RunProfiling(false);
             UpdateButtons();
+            webBrowser1.AllowNavigation = false;
+        }
+
+        private void SetDefaults()
+        {
+            m_servername = Environment.MachineName;
+	        m_currentsettings.Filters.DatabaseName = "eD%";
         }
 
         private TraceProperties.TraceSettings GetDefaultSettings()
@@ -820,24 +826,35 @@ namespace ExpressProfiler
         private void UpdateSourceBox()
         {
             if (dontUpdateSource) return;
-            StringBuilder sb = new StringBuilder();
 
+            StringBuilder sb = new StringBuilder();
             foreach (int i in lvEvents.SelectedIndices)
             {
                 ListViewItem lv = m_Cached[i];
                 if (lv.SubItems[1].Text != "")
                 {
-                    sb.AppendFormat("{0}\r\ngo\r\n", lv.SubItems[1].Text);
+                    //sb.AppendFormat("{0}\r\ngo\r\n", lv.SubItems[1].Text);
+                    sb.AppendLine(lv.SubItems[1].Text);
                 }
             }
             m_Lex.FillRichEdit(reTextData, sb.ToString());
+            
+            DisplayHtml(SqlFormatter.Format(sb.ToString()));
         }
 
+        private void DisplayHtml(string html)
+        {
+            webBrowser1.Navigate("about:blank");
+            webBrowser1.Document?.OpenNew(false);
+            webBrowser1.Document?.Write(html);
+            webBrowser1.Refresh();
+        }
+        
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(m_ProfilingState==ProfilingStateEnum.psPaused||m_ProfilingState==ProfilingStateEnum.psProfiling)
             {
-                if (MessageBox.Show("There are traces still running. Are you sure you want to close the application?","ExpressProfiler",MessageBoxButtons.YesNo,MessageBoxIcon.Question
+                if (MessageBox.Show("There are traces still running. Are you sure you want to stop profiling and close the application?","ExpressProfiler",MessageBoxButtons.YesNo,MessageBoxIcon.Question
                     ,MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     StopProfiling();
