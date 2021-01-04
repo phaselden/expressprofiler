@@ -5,7 +5,7 @@ using SqlVisualizer;
 
 namespace ExpressProfiler
 {
-    class SqlFormatter
+    public class SqlFormatter
     {
         internal static string Format(string sql)
         {
@@ -27,17 +27,55 @@ namespace ExpressProfiler
             return html;
         }
 
-        private static string FindSpExecuteSql(string sql)
+        public static string FindSpExecuteSql(string sql)
         {
             const string start = "exec sp_executesql N'";
             var startIndex = sql.IndexOf(start, StringComparison.OrdinalIgnoreCase);
             if (startIndex == -1)
                 return null;
             var sqlStartIndex = startIndex + start.Length;
-            var endIndex = sql.IndexOf("'", sqlStartIndex, StringComparison.Ordinal);
+            var endIndex = GetEndOfStringIndex(sql, sqlStartIndex);
             if (endIndex == -1)
                 return "ERROR";
-            return sql.Substring(sqlStartIndex, endIndex - sqlStartIndex);
+            return UnescapeSingleQuotes(sql.Substring(sqlStartIndex, endIndex - sqlStartIndex));
+        }
+
+        private static string UnescapeSingleQuotes(string s)
+        {
+            return s.Replace("''", "'");
+        }
+
+        private static int GetEndOfStringIndex(string s, int startIndex)
+        {
+            const char quote = '\'';
+            var inEscape = false;
+
+            for (var i = startIndex; i < s.Length; i++)
+            {
+                if (s[i] != quote) 
+                    continue;
+
+                if (!inEscape)
+                {
+                    if (PeekChar(s, i + 1) != quote)
+                        return i;
+                    else
+                        inEscape = true;
+                }
+                else
+                {
+                    inEscape = false;
+                }
+            }
+
+            return -1;
+        }
+
+        private static char PeekChar(string sql, int index)
+        {
+            if (index < sql.Length)
+                return sql[index];
+            return default(char);
         }
 
         private static TSqlStandardFormatter GetFormatter(string configString)

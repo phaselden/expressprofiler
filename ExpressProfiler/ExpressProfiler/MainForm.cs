@@ -93,7 +93,11 @@ namespace ExpressProfiler
         private void SetDefaults()
         {
             m_servername = Environment.MachineName;
-	        m_currentsettings.Filters.DatabaseName = "eD%";
+            
+            m_currentsettings.Filters.ApplicationNameFilterCondition = TraceProperties.StringFilterCondition.NotLike;
+            m_currentsettings.Filters.ApplicationName = "EDT Agent";
+
+            m_currentsettings.Filters.DatabaseName = "eD%";
         }
 
         private TraceProperties.TraceSettings GetDefaultSettings()
@@ -337,20 +341,20 @@ namespace ExpressProfiler
             m_columns.Add(new PerfColumn{ Caption = "Event Class", Column = ProfilerEventColumns.EventClass,Width = 122});
             m_columns.Add(new PerfColumn { Caption = "Text Data", Column = ProfilerEventColumns.TextData, Width = 255});
             m_columns.Add(new PerfColumn { Caption = "Login Name", Column = ProfilerEventColumns.LoginName, Width = 79 });
-            m_columns.Add(new PerfColumn { Caption = "CPU", Column = ProfilerEventColumns.CPU, Width = 82, Alignment = HorizontalAlignment.Right, Format = "#,0" });
-            m_columns.Add(new PerfColumn { Caption = "Reads", Column = ProfilerEventColumns.Reads, Width = 78, Alignment = HorizontalAlignment.Right, Format = "#,0" });
-            m_columns.Add(new PerfColumn { Caption = "Writes", Column = ProfilerEventColumns.Writes, Width = 78, Alignment = HorizontalAlignment.Right, Format = "#,0" });
-            m_columns.Add(new PerfColumn { Caption = "Duration, ms", Column = ProfilerEventColumns.Duration, Width = 82, Alignment = HorizontalAlignment.Right, Format = "#,0" });
-            m_columns.Add(new PerfColumn { Caption = "SPID", Column = ProfilerEventColumns.SPID, Width = 50, Alignment = HorizontalAlignment.Right });
+            m_columns.Add(new PerfColumn { Caption = "CPU", Column = ProfilerEventColumns.CPU, Width = 40, Alignment = HorizontalAlignment.Right, Format = "#,0" });
+            m_columns.Add(new PerfColumn { Caption = "Reads", Column = ProfilerEventColumns.Reads, Width = 46, Alignment = HorizontalAlignment.Right, Format = "#,0" });
+            m_columns.Add(new PerfColumn { Caption = "Writes", Column = ProfilerEventColumns.Writes, Width = 46, Alignment = HorizontalAlignment.Right, Format = "#,0" });
+            m_columns.Add(new PerfColumn { Caption = "Duration, ms", Column = ProfilerEventColumns.Duration, Width = 76, Alignment = HorizontalAlignment.Right, Format = "#,0" });
+            m_columns.Add(new PerfColumn { Caption = "SPID", Column = ProfilerEventColumns.SPID, Width = 40, Alignment = HorizontalAlignment.Right });
 
             if (m_currentsettings.EventsColumns.StartTime) m_columns.Add(new PerfColumn { Caption = "Start time", Column = ProfilerEventColumns.StartTime, Width = 140, Format = "yyyy-MM-dd hh:mm:ss.ffff" });
-            if (m_currentsettings.EventsColumns.EndTime) m_columns.Add(new PerfColumn { Caption = "End time", Column = ProfilerEventColumns.EndTime, Width = 140, Format = "yyyy-MM-dd hh:mm:ss.ffff" });
-            if (m_currentsettings.EventsColumns.DatabaseName) m_columns.Add(new PerfColumn { Caption = "DatabaseName", Column = ProfilerEventColumns.DatabaseName, Width = 70 });
+            if (m_currentsettings.EventsColumns.EndTime) m_columns.Add(new PerfColumn { Caption = "End time", Column = ProfilerEventColumns.EndTime, Width = 90, Format = "hh:mm:ss.ffff" });
+            if (m_currentsettings.EventsColumns.DatabaseName) m_columns.Add(new PerfColumn { Caption = "DatabaseName", Column = ProfilerEventColumns.DatabaseName, Width = 156 });
             if (m_currentsettings.EventsColumns.ObjectName) m_columns.Add(new PerfColumn { Caption = "Object name", Column = ProfilerEventColumns.ObjectName, Width = 70 });
-            if (m_currentsettings.EventsColumns.ApplicationName) m_columns.Add(new PerfColumn { Caption = "Application name", Column = ProfilerEventColumns.ApplicationName, Width = 70 });
+            if (m_currentsettings.EventsColumns.ApplicationName) m_columns.Add(new PerfColumn { Caption = "Application name", Column = ProfilerEventColumns.ApplicationName, Width = 80 });
             if (m_currentsettings.EventsColumns.HostName) m_columns.Add(new PerfColumn { Caption = "Host name", Column = ProfilerEventColumns.HostName, Width = 70 });
 
-            m_columns.Add(new PerfColumn { Caption = "#", Column = -1, Width = 53, Alignment = HorizontalAlignment.Right});
+            m_columns.Add(new PerfColumn { Caption = "#", Column = -1, Width = 40, Alignment = HorizontalAlignment.Right});
         }
 
         private void InitGridColumns()
@@ -416,27 +420,33 @@ namespace ExpressProfiler
 
         private void NewEventArrived(ProfilerEvent evt,bool last)
         {
+            //TODO do this better
+            if (evt.TextData == "exec sp_reset_connection")
+                return;
+
+            ListViewItem current = (lvEvents.SelectedIndices.Count > 0) ? m_Cached[lvEvents.SelectedIndices[0]] : null;
+            m_EventCount++;
+            string caption = GetEventCaption(evt);
+
+            ListViewItem lvi = new ListViewItem(caption);
+            string[] items = new string[m_columns.Count];
+            for (int i = 1; i < m_columns.Count; i++)
             {
-                ListViewItem current = (lvEvents.SelectedIndices.Count > 0) ? m_Cached[lvEvents.SelectedIndices[0]] : null;
-                m_EventCount++;
-                string caption = GetEventCaption(evt);
-                ListViewItem lvi = new ListViewItem(caption);
-                string []items = new string[m_columns.Count];
-                for (int i = 1; i < m_columns.Count;i++ )
-                {
-                    PerfColumn pc = m_columns[i];
-                    items[i - 1] = pc.Column == -1 ? m_EventCount.ToString("#,0") : GetFormattedValue(evt,pc.Column, pc.Format) ?? "";
-                }
-                lvi.SubItems.AddRange(items);
-                lvi.Tag = evt;
-                m_Cached.Add(lvi);
-                if (last)
-                {
-                    lvEvents.VirtualListSize = m_Cached.Count;
-                    lvEvents.SelectedIndices.Clear();
-                    FocusLVI(tbScroll.Checked ? lvEvents.Items[m_Cached.Count - 1] : current, tbScroll.Checked);
-                    lvEvents.Invalidate(lvi.Bounds);
-                }
+                PerfColumn pc = m_columns[i];
+                items[i - 1] = pc.Column == -1
+                    ? m_EventCount.ToString("#,0")
+                    : GetFormattedValue(evt, pc.Column, pc.Format) ?? "";
+            }
+
+            lvi.SubItems.AddRange(items);
+            lvi.Tag = evt;
+            m_Cached.Add(lvi);
+            if (last)
+            {
+                lvEvents.VirtualListSize = m_Cached.Count;
+                lvEvents.SelectedIndices.Clear();
+                FocusLVI(tbScroll.Checked ? lvEvents.Items[m_Cached.Count - 1] : current, tbScroll.Checked);
+                lvEvents.Invalidate(lvi.Bounds);
             }
         }
 
@@ -837,6 +847,7 @@ namespace ExpressProfiler
                     sb.AppendLine(lv.SubItems[1].Text);
                 }
             }
+
             m_Lex.FillRichEdit(reTextData, sb.ToString());
             
             DisplayHtml(SqlFormatter.Format(sb.ToString()));
