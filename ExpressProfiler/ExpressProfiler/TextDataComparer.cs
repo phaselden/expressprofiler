@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ExpressProfiler.EventComparers
@@ -53,9 +51,12 @@ namespace ExpressProfiler.EventComparers
 
 		private int CompareDescending(ListViewItem x, ListViewItem y)
 		{
-			if (x.SubItems[CheckedColumn] == null && y.SubItems[CheckedColumn] == null) return 0;
-			else if (x.SubItems[CheckedColumn] == null) return 1;
-			else if (y.SubItems[CheckedColumn] == null) return -1;
+			if (x.SubItems[CheckedColumn] == null && y.SubItems[CheckedColumn] == null) 
+                return 0;
+			else if (x.SubItems[CheckedColumn] == null) 
+                return 1;
+			else if (y.SubItems[CheckedColumn] == null) 
+                return -1;
 			else
 			{
 				int xAsInt;

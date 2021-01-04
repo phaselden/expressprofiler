@@ -14,9 +14,9 @@ namespace ExpressProfiler
             m_mainForm = f;
 
             // Set the control values to the last find performed.
-            edPattern.Text = m_mainForm.lastpattern;
-            chkCase.Checked = m_mainForm.matchCase;
-            chkWholeWord.Checked = m_mainForm.wholeWord;
+            edPattern.Text = m_mainForm._lastPattern;
+            chkCase.Checked = m_mainForm._matchCase;
+            chkWholeWord.Checked = m_mainForm._wholeWord;
         }
 
         private void btnFindNext_Click(object sender, EventArgs e)
@@ -31,15 +31,15 @@ namespace ExpressProfiler
 
         private void DoFind(bool forwards)
         {
-            m_mainForm.lastpattern = edPattern.Text;
-            m_mainForm.matchCase = chkCase.Checked;
-            m_mainForm.wholeWord = chkWholeWord.Checked;
+            m_mainForm._lastPattern = edPattern.Text;
+            m_mainForm._matchCase = chkCase.Checked;
+            m_mainForm._wholeWord = chkWholeWord.Checked;
             m_mainForm.PerformFind(forwards, chkWrapAround.Checked);
         }
 
         private void edPattern_TextChanged(object sender, EventArgs e)
         {
-            m_mainForm.lastpos = -1;
+            m_mainForm._lastPos = -1;
         }
     }
 }

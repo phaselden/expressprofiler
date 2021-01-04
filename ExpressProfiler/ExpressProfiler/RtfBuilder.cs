@@ -8,99 +8,97 @@ using System.Text;
 
 namespace ExpressProfiler
 {
-    class RTFBuilder
+    class RtfBuilder
     {
-
-        private readonly StringBuilder m_Sb = new StringBuilder();
-        private readonly List<Color> m_Colortable = new List<Color>();
-        private readonly StringCollection m_Fonttable = new StringCollection();
-        private Color m_Forecolor;
+        private readonly StringBuilder _stringBuilder = new StringBuilder();
+        private readonly List<Color> _colortable = new List<Color>();
+        private readonly StringCollection _fontTable = new StringCollection();
+        
+        private Color _foreColor;
         public Color ForeColor
         {
             set
             {
-                if (!m_Colortable.Contains(value)) { m_Colortable.Add(value); }
-                if (value != m_Forecolor)
+                if (!_colortable.Contains(value)) { _colortable.Add(value); }
+                if (value != _foreColor)
                 {
-                    m_Sb.Append(String.Format("\\cf{0} ", m_Colortable.IndexOf(value) + 1));
+                    _stringBuilder.Append(String.Format("\\cf{0} ", _colortable.IndexOf(value) + 1));
                 }
-                m_Forecolor = value;
+                _foreColor = value;
             }
         }
-
-
-        private Color m_Backcolor;
+        
+        private Color _backColor;
         public Color BackColor
         {
             set
             {
-                if (!m_Colortable.Contains(value)) { m_Colortable.Add(value); }
-                if (value != m_Backcolor)
+                if (!_colortable.Contains(value)) { _colortable.Add(value); }
+                if (value != _backColor)
                 {
-                    m_Sb.Append(String.Format("\\highlight{0} ", m_Colortable.IndexOf(value) + 1));
+                    _stringBuilder.Append(String.Format("\\highlight{0} ", _colortable.IndexOf(value) + 1));
                 }
-                m_Backcolor = value;
+                _backColor = value;
             }
         }
-
-
-        public RTFBuilder()
+        
+        public RtfBuilder()
         {
             ForeColor = Color.FromKnownColor(KnownColor.WindowText);
             BackColor = Color.FromKnownColor(KnownColor.Window);
-            m_DefaultFontSize = 20F;
+            _defaultFontSize = 20F;
         }
 
         public void AppendLine()
         {
-            m_Sb.AppendLine("\\line");
+            _stringBuilder.AppendLine("\\line");
         }
 
         public void Append(string value)
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!String.IsNullOrEmpty(value))
             {
                 value = CheckChar(value);
                 if (value.IndexOf(Environment.NewLine) >= 0)
                 {
-                    string[] lines = value.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    var lines = value.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                     foreach (string line in lines)
                     {
-                        m_Sb.Append(line);
-                        m_Sb.Append("\\line ");
+                        _stringBuilder.Append(line);
+                        _stringBuilder.Append("\\line ");
                     }
                 }
                 else
                 {
-                    m_Sb.Append(value);
+                    _stringBuilder.Append(value);
                 }
-
             }
         }
-        private static readonly char[] Slashable = new[] { '{', '}', '\\' };
-        private readonly float m_DefaultFontSize;
+
+        private static readonly char[] _slashable = new[] { '{', '}', '\\' };
+        private readonly float _defaultFontSize;
 
         private static string CheckChar(string value)
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!String.IsNullOrEmpty(value))
             {
-                if (value.IndexOfAny(Slashable) >= 0)
+                if (value.IndexOfAny(_slashable) >= 0)
                 {
                     value = value.Replace("{", "\\{").Replace("}", "\\}").Replace("\\", "\\\\");
                 }
-                bool replaceuni = false;
-                for (int i = 0; i < value.Length; i++)
+                var replaceUni = false;
+                for (var i = 0; i < value.Length; i++)
                 {
                     if (value[i] > 255)
                     {
-                        replaceuni = true;
+                        replaceUni = true;
                         break;
                     }
                 }
-                if (replaceuni)
+                if (replaceUni)
                 {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < value.Length; i++)
+                    var sb = new StringBuilder();
+                    for (var i = 0; i < value.Length; i++)
                     {
                         if (value[i] <= 255)
                         {
@@ -116,40 +114,39 @@ namespace ExpressProfiler
                     value = sb.ToString();
                 }
             }
-
-
+            
             return value;
         }
 
         public new string ToString()
         {
-            StringBuilder result = new StringBuilder();
-            result.Append("{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3081");
-            result.Append("{\\fonttbl");
-            for (int i = 0; i < m_Fonttable.Count; i++)
+            var sb = new StringBuilder();
+            sb.Append("{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3081");
+            sb.Append("{\\fonttbl");
+            for (var i = 0; i < _fontTable.Count; i++)
             {
                 try
                 {
-                    result.Append(string.Format(m_Fonttable[i], i));
+                    sb.Append(string.Format(_fontTable[i], i));
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            result.AppendLine("}");
-            result.Append("{\\colortbl ;");
-            foreach (Color item in m_Colortable)
+            sb.AppendLine("}");
+            sb.Append("{\\colortbl ;");
+            foreach (var color in _colortable)
             {
-                result.AppendFormat("\\red{0}\\green{1}\\blue{2};", item.R, item.G, item.B);
+                sb.AppendFormat("\\red{0}\\green{1}\\blue{2};", color.R, color.G, color.B);
             }
-            result.AppendLine("}");
-            result.Append("\\viewkind4\\uc1\\pard\\plain\\f0");
-            result.AppendFormat("\\fs{0} ", m_DefaultFontSize);
-            result.AppendLine();
-            result.Append(m_Sb.ToString());
-            result.Append("}");
-            return result.ToString();
+            sb.AppendLine("}");
+            sb.Append("\\viewkind4\\uc1\\pard\\plain\\f0");
+            sb.AppendFormat("\\fs{0} ", _defaultFontSize);
+            sb.AppendLine();
+            sb.Append(_stringBuilder.ToString());
+            sb.Append("}");
+            return sb.ToString();
         }
     }
 }

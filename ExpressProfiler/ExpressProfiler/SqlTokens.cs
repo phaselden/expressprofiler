@@ -88,7 +88,7 @@ namespace ExpressProfiler
         private const string Greykeywords = "AND,EXISTS,ALL,ANY,BETWEEN,IN,SOME,JOIN,CROSS,OR,NULL,OUTER,NOT,LIKE";
         private const string Fukeywords = "CASE,RIGHT,COALESCE,SESSION_USER,CONVERT,SYSTEM_USER,LEFT,CURRENT_TIMESTAMP,CURRENT_USER,NULLIF,USER";
         private readonly Dictionary<string, YukonLexer.TokenKind> m_Words = new Dictionary<string, YukonLexer.TokenKind>();
-        public YukonLexer.TokenKind this[string token] { get { token = token.ToLower(); return m_Words.ContainsKey(token) ? m_Words[token] : YukonLexer.TokenKind.tkUnknown; } }
+        public YukonLexer.TokenKind this[string token] { get { token = token.ToLower(); return m_Words.ContainsKey(token) ? m_Words[token] : YukonLexer.TokenKind.Unknown; } }
         private void AddTokens(string tokens, YukonLexer.TokenKind tokenkind)
         {
             StringBuilder curtoken = new StringBuilder();
@@ -110,11 +110,11 @@ namespace ExpressProfiler
         }
         public Sqltokens()
         {
-            AddTokens(Keywords, YukonLexer.TokenKind.tkKey);
-            AddTokens(Functions, YukonLexer.TokenKind.tkFunction);
-            AddTokens(Types, YukonLexer.TokenKind.tkDatatype);
-            AddTokens(Greykeywords, YukonLexer.TokenKind.tkGreyKeyword);
-            AddTokens(Fukeywords, YukonLexer.TokenKind.tkFuKeyword);
+            AddTokens(Keywords, YukonLexer.TokenKind.Key);
+            AddTokens(Functions, YukonLexer.TokenKind.Function);
+            AddTokens(Types, YukonLexer.TokenKind.DataType);
+            AddTokens(Greykeywords, YukonLexer.TokenKind.GreyKeyword);
+            AddTokens(Fukeywords, YukonLexer.TokenKind.FuKeyword);
         }
     }
 }
