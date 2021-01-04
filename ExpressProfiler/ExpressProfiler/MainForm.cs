@@ -1707,7 +1707,7 @@ namespace ExpressProfiler
 			ClearFilterEvents();
 		}
 
-		private void tbFilterEvents_Click(object sender, EventArgs e)
+        private void tbFilterEvents_Click(object sender, EventArgs e)
 		{
 			ToolStripButton filterButton = (ToolStripButton)sender;
 			if (filterButton.Checked)

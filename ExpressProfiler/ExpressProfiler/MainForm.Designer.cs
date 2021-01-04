@@ -93,9 +93,7 @@
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterCapturedEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearCapturedFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.reTextData = new System.Windows.Forms.RichTextBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.statusStrip1.SuspendLayout();
@@ -105,9 +103,10 @@
             this.splitContainer1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -342,7 +341,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(1344, 591);
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 4;
@@ -643,58 +642,42 @@
             this.clearCapturedFiltersToolStripMenuItem.Text = "Clear Captured Filters";
             this.clearCapturedFiltersToolStripMenuItem.Click += new System.EventHandler(this.clearCapturedFiltersToolStripMenuItem_Click);
             // 
-            // tabControl1
+            // splitContainer2
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1344, 287);
-            this.tabControl1.TabIndex = 5;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
             // 
-            // tabPage1
+            // splitContainer2.Panel1
             // 
-            this.tabPage1.Controls.Add(this.reTextData);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1336, 261);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Raw Text";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.splitContainer2.Panel1.Controls.Add(this.reTextData);
             // 
-            // tabPage2
+            // splitContainer2.Panel2
             // 
-            this.tabPage2.Controls.Add(this.webBrowser1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(971, 129);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Formatted";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.splitContainer2.Panel2.Controls.Add(this.webBrowser1);
+            this.splitContainer2.Size = new System.Drawing.Size(1344, 287);
+            this.splitContainer2.SplitterDistance = 670;
+            this.splitContainer2.TabIndex = 6;
             // 
             // reTextData
             // 
             this.reTextData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reTextData.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reTextData.Location = new System.Drawing.Point(3, 3);
+            this.reTextData.Location = new System.Drawing.Point(0, 0);
             this.reTextData.Name = "reTextData";
             this.reTextData.ReadOnly = true;
-            this.reTextData.Size = new System.Drawing.Size(1330, 255);
-            this.reTextData.TabIndex = 5;
+            this.reTextData.Size = new System.Drawing.Size(670, 287);
+            this.reTextData.TabIndex = 6;
             this.reTextData.Text = "";
             // 
             // webBrowser1
             // 
             this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(965, 123);
-            this.webBrowser1.TabIndex = 0;
+            this.webBrowser1.Size = new System.Drawing.Size(670, 287);
+            this.webBrowser1.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -721,9 +704,10 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -794,10 +778,8 @@
 		private System.Windows.Forms.ToolStripMenuItem saveAllEventsToExcelXmlFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 		private System.Windows.Forms.ToolStripButton tbFilterEvents;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox reTextData;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }

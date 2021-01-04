@@ -12,11 +12,32 @@ namespace ExpressProfiler
             if (String.IsNullOrEmpty(sql))
                 return "";
 
+            var subSql = FindSpExecuteSql(sql);
+            if (subSql != null)
+            {
+                sql += Environment.NewLine + Environment.NewLine + 
+                       "-- SQL Extracted and Formatted" 
+                       + Environment.NewLine + Environment.NewLine + subSql;
+            }
+            
             var formatter = GetFormatter(null);
             var wrapper = new HtmlWrapper2(formatter);
             var fullFormatter = new SqlFormattingManager(wrapper);
             var html = fullFormatter.Format(sql);
             return html;
+        }
+
+        private static string FindSpExecuteSql(string sql)
+        {
+            const string start = "exec sp_executesql N'";
+            var startIndex = sql.IndexOf(start, StringComparison.OrdinalIgnoreCase);
+            if (startIndex == -1)
+                return null;
+            var sqlStartIndex = startIndex + start.Length;
+            var endIndex = sql.IndexOf("'", sqlStartIndex, StringComparison.Ordinal);
+            if (endIndex == -1)
+                return "ERROR";
+            return sql.Substring(sqlStartIndex, endIndex - sqlStartIndex);
         }
 
         private static TSqlStandardFormatter GetFormatter(string configString)
