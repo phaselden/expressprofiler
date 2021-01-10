@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using PoorMansTSqlFormatterLib;
 using PoorMansTSqlFormatterLib.Formatters;
 using SqlVisualizer;
@@ -12,12 +13,23 @@ namespace ExpressProfiler
             if (String.IsNullOrEmpty(sql))
                 return "";
 
-            var subSql = FindSpExecuteSql(sql);
-            if (subSql != null)
+            if (sql.IndexOf("exec sp_executesql ") > -1)
             {
-                sql += Environment.NewLine + Environment.NewLine + 
-                       "-- SQL Extracted and Formatted" 
-                       + Environment.NewLine + Environment.NewLine + subSql;
+                var sb = new StringBuilder();
+                var parts = StringParser.Split(sql, ' ', '\'');
+                var items = StringParser.Split(parts[2], ',', '\'');
+                for (var i = 1; i < items.Count; i++)
+                {
+                    var param = items[i].Length < 80 
+                        ? $"-- {items[i]}" 
+                        : $"-- {items[i].Substring(0, 80)}...";
+                    sb.AppendLine(param.Replace(Environment.NewLine, "  "));
+                }
+                sb.AppendLine("--");
+                sb.AppendLine("-- SQL extracted from sp_executesql and formatted");
+                sb.AppendLine("--");
+                sb.AppendLine(RemoveSqlQuotes(items[0].Replace("''", "'")));
+                sql = sb.ToString();
             }
             
             var formatter = GetFormatter(null);
@@ -25,57 +37,6 @@ namespace ExpressProfiler
             var fullFormatter = new SqlFormattingManager(wrapper);
             var html = fullFormatter.Format(sql);
             return html;
-        }
-
-        public static string FindSpExecuteSql(string sql)
-        {
-            const string start = "exec sp_executesql N'";
-            var startIndex = sql.IndexOf(start, StringComparison.OrdinalIgnoreCase);
-            if (startIndex == -1)
-                return null;
-            var sqlStartIndex = startIndex + start.Length;
-            var endIndex = GetEndOfStringIndex(sql, sqlStartIndex);
-            if (endIndex == -1)
-                return "ERROR";
-            return UnescapeSingleQuotes(sql.Substring(sqlStartIndex, endIndex - sqlStartIndex));
-        }
-
-        private static string UnescapeSingleQuotes(string s)
-        {
-            return s.Replace("''", "'");
-        }
-
-        private static int GetEndOfStringIndex(string s, int startIndex)
-        {
-            const char quote = '\'';
-            var inEscape = false;
-
-            for (var i = startIndex; i < s.Length; i++)
-            {
-                if (s[i] != quote) 
-                    continue;
-
-                if (!inEscape)
-                {
-                    if (PeekChar(s, i + 1) != quote)
-                        return i;
-                    else
-                        inEscape = true;
-                }
-                else
-                {
-                    inEscape = false;
-                }
-            }
-
-            return -1;
-        }
-
-        private static char PeekChar(string sql, int index)
-        {
-            if (index < sql.Length)
-                return sql[index];
-            return default(char);
         }
 
         private static TSqlStandardFormatter GetFormatter(string configString)
@@ -95,6 +56,14 @@ namespace ExpressProfiler
                 true, true, true,
                 false, true,
                 true, false);
+        }
+
+        public static string RemoveSqlQuotes(string s)
+        {
+            s = s.Trim();
+            if (s.StartsWith("N"))
+                s = s.Substring(1);
+            return s.Trim('\'');
         }
     }
 }

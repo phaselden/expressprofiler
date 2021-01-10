@@ -90,6 +90,7 @@
     <Compile Include="ListViewExtensions.cs" />
     <Compile Include="SqlExtendedEvents.cs" />
     <Compile Include="SqlFormatter.cs" />
+    <Compile Include="StringParser.cs" />
     <Compile Include="TextDataComparer.cs" />
     <Compile Include="EventList.cs" />
     <Compile Include="FindForm.cs">
