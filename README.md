@@ -1,3 +1,10 @@
+**Fork Notes**
+
+*This fork contains some initial changes to better suit the specific needs to monitoring database calls made by EDT (discoveredt.com). At this stage it probably does not contain any changes that are of interest generally.*
+
+
+**Original Readme:**
+
 *ExpressProfiler* (aka *SqlExpress Profiler*) is a simple and fast replacement for SQL Server Profiler with basic GUI and integration with Red Gate Ecosystem project.
 
 Can be used with both Express and non-Express editions of SQL Server 2005/2008/2008r2/2012/2014 (including LocalDB)
