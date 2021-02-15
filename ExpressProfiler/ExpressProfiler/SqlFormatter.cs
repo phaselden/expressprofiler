@@ -1,17 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using PoorMansTSqlFormatterLib;
 using PoorMansTSqlFormatterLib.Formatters;
 using SqlVisualizer;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
+    public class SqlParam
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class ParseResult
+    {
+        public ParseResult()
+        {
+            Parameters = new List<SqlParam>();
+        }
+
+        public string Sql { get; set; }
+        public List<SqlParam> Parameters { get; }
+    }
+
     public class SqlFormatter
     {
         internal static string Format(string sql)
         {
             if (String.IsNullOrEmpty(sql))
                 return "";
+
+            var parseResult = ParseSql(sql);
+            
+            var formatter = GetFormatter(null);
+            var wrapper = new HtmlWrapper2(formatter);
+            var fullFormatter = new SqlFormattingManager(wrapper);
+
+            var sb = new StringBuilder();
+            if (parseResult.Parameters.Count > 0)
+            {
+                foreach (var p in parseResult.Parameters)
+                {
+                    var param = p.Value.Length < 80
+                        ? $"-- {p.Value}"
+                        : $"-- {p.Value.Substring(0, 80)}...";
+                    sb.AppendLine(param.Replace(Environment.NewLine, "  "));
+                }
+                sb.AppendLine("--");
+                sb.AppendLine("-- SQL extracted from sp_executesql and formatted");
+                sb.AppendLine("--");
+                sb.AppendLine(parseResult.Sql);
+                return fullFormatter.Format(sb.ToString());
+            }
+            return fullFormatter.Format(parseResult.Sql);
+        }
+
+        public static ParseResult ParseSql(string sql)
+        {
+            ParseResult result = new ParseResult();
+            result.Sql = sql;
 
             if (sql.IndexOf("exec sp_executesql ") > -1)
             {
@@ -20,23 +69,16 @@ namespace ExpressProfiler
                 var items = StringParser.Split(parts[2], ',', '\'');
                 for (var i = 1; i < items.Count; i++)
                 {
-                    var param = items[i].Length < 80 
-                        ? $"-- {items[i]}" 
-                        : $"-- {items[i].Substring(0, 80)}...";
-                    sb.AppendLine(param.Replace(Environment.NewLine, "  "));
+                    var p = new SqlParam();
+                    p.Value = items[i].Replace(Environment.NewLine, "  ");
+                    result.Parameters.Add(p);
                 }
-                sb.AppendLine("--");
-                sb.AppendLine("-- SQL extracted from sp_executesql and formatted");
-                sb.AppendLine("--");
-                sb.AppendLine(RemoveSqlQuotes(items[0].Replace("''", "'")));
-                sql = sb.ToString();
+
+                result.Sql = RemoveSqlQuotes(items[0].Replace("''", "'"));
+                result.Sql = sb.ToString();
             }
             
-            var formatter = GetFormatter(null);
-            var wrapper = new HtmlWrapper2(formatter);
-            var fullFormatter = new SqlFormattingManager(wrapper);
-            var html = fullFormatter.Format(sql);
-            return html;
+            return result;
         }
 
         private static TSqlStandardFormatter GetFormatter(string configString)

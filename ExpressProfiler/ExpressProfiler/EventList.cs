@@ -1,11 +1,12 @@
 ﻿//Traceutils assembly
 //writen by Locky, 2009.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     [Serializable]
     public class CEvent

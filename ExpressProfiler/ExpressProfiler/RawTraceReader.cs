@@ -1,12 +1,13 @@
 ﻿//Traceutils assembly
 //writen by Locky, 2009. 
+
 using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     // ReSharper disable UnusedMember.Global
     // ReSharper disable InconsistentNaming

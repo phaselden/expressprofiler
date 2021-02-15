@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     
     public partial class TraceProperties : Form

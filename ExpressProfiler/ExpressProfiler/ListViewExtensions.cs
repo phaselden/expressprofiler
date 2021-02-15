@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -12,7 +10,7 @@ using System.Windows.Forms;
 // myListView.SetSortIcon(0, SortOrder.Ascending);
 //
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static class ListViewExtensions

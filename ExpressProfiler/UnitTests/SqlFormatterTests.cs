@@ -1,5 +1,5 @@
 ﻿using System;
-using ExpressProfiler;
+using EdtDbProfiler;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 

@@ -33,24 +33,23 @@
       <UpgradeVersion OnlyDetect='no' Property='OLDERVERSIONBEINGUPGRADED' Minimum="0.0.0.0" IncludeMinimum='yes' Maximum='$(var.ProductVersion)' IncludeMaximum='no' />
     </Upgrade>
 
-    
-		<Directory Id="TARGETDIR" Name="SourceDir">
+    <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="DesktopFolder" SourceName="Desktop" />
       <Directory Id="ProgramFilesFolder">
           <Directory Id="INSTALLFOLDER" Name="ExpressProfiler">
             <Component Id="ExpressProfiler" Guid="4AC66737-E061-4CB5-A5CB-AF65995F2790">
-              <File Id="ExpressProfilerexe" Source="$(var.ExpressProfiler.TargetPath)" KeyPath="yes" Checksum="yes">
+              <File Id="ExpressProfilerexe" Source="$(var.EdtDbProfiler.TargetPath)" KeyPath="yes" Checksum="yes">
                   <Shortcut Advertise="yes"
                                        Id="ExpressProfilerShortcut"
                                        Directory="DesktopFolder"
-                                       Name="Express Profiler"
+                                       Name="EDT DB Profiler"
                                        WorkingDirectory="INSTALLLOCATION"
-                                       Description="Express Profiler"
+                                       Description="EDT DB Profiler"
                                        Icon="ExpressProfiler.exe">
                   <Icon Id="ExpressProfiler.exe" SourceFile="Application.ico" />
                 </Shortcut>              </File>
-              <File Id="ExpressProfilerconfig" Source="$(var.ExpressProfiler.TargetPath).config" KeyPath="no" Checksum="yes"/>
-              <File Id="ExpressProfilerecosystemdll" Source="$(var.ExpressProfiler.Ecosystem.TargetPath)" KeyPath="no" Checksum="yes"/>
+              <File Id="ExpressProfilerconfig" Source="$(var.EdtDbProfiler.TargetPath).config" KeyPath="no" Checksum="yes"/>
+              <File Id="ExpressProfilerecosystemdll" Source="$(var.EdtDbProfiler.Ecosystem.TargetPath)" KeyPath="no" Checksum="yes"/>
             <RegistryKey Root="HKLM" Key="SOFTWARE\Red Gate\SIPFramework\Plugins" Action="create">
               <RegistryValue Type="string" Name="ExpressProfiler" Value="[INSTALLFOLDER]ExpressProfiler.Ecosystem.dll" KeyPath="no"/>
             </RegistryKey>

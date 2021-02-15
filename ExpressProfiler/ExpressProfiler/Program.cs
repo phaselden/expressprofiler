@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     static class Program
     {

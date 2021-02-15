@@ -1,4 +1,4 @@
-﻿namespace ExpressProfiler
+﻿namespace EdtDbProfiler
 {
     partial class TraceProperties
     {

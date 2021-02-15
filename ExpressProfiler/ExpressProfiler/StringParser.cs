@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     public class StringParser
     {

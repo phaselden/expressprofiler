@@ -14,13 +14,13 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using ExpressProfiler.EventComparers;
+using EdtDbProfiler.EventComparers;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     public partial class MainForm : Form
     {
-        internal const string VersionString = "Phils Express Profiler v2.2";
+        internal const string VersionString = "EDT DB Profiler v3.0";
 
         private class PerfInfo
         {
@@ -497,8 +497,8 @@ namespace ExpressProfiler
             return new SqlConnection
                 {
                     ConnectionString = tbAuth.SelectedIndex == 0
-                        ? String.Format(@"Data Source={0}; Initial Catalog = master; Integrated Security=SSPI; Application Name=Express Profiler", edServer.Text)
-                        : String.Format(@"Data Source={0}; Initial Catalog=master; User Id={1}; Password='{2}';; Application Name=Express Profiler", edServer.Text, edUser.Text, edPassword.Text)
+                        ? $@"Data Source={edServer.Text}; Initial Catalog = master; Integrated Security=SSPI; Application Name=EDT DB Profiler"
+                        : $@"Data Source={edServer.Text}; Initial Catalog=master; User Id={edUser.Text}; Password='{edPassword.Text}';; Application Name=EDT DB Profiler"
                 };
         }
 
@@ -727,7 +727,7 @@ namespace ExpressProfiler
                 _command.Connection = _connection;
                 _command.CommandTimeout = 0;
                 _reader.SetFilter(ProfilerEventColumns.ApplicationName, LogicalOperators.AND, ComparisonOperators.NotLike,
-                                "Express Profiler");
+                                "EDT DB Profiler");
                 _cached.Clear();
                 _events.Clear();
                 _itemBySql.Clear();
@@ -843,6 +843,9 @@ namespace ExpressProfiler
             }
 
             _lexer.FillRichEdit(reTextData, sb.ToString());
+
+            var res = SqlFormatter.ParseSql(sb.ToString());
+            _lexer.FillRichEdit(richTextBox1, res.Sql);
             
             DisplayHtml(SqlFormatter.Format(sb.ToString()));
         }
@@ -859,15 +862,16 @@ namespace ExpressProfiler
         {
             if (_profilingState == ProfilingState.Paused || _profilingState == ProfilingState.Profiling)
             {
-                if (MessageBox.Show("There are traces still running. Are you sure you want to stop profiling and close the application?","ExpressProfiler",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                {
-                    StopProfiling();
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
+                StopProfiling();
+                // if (MessageBox.Show("There are traces still running. Are you sure you want to stop profiling and close the application?","ExpressProfiler",
+                //     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                // {
+                //     StopProfiling();
+                // }
+                // else
+                // {
+                //     e.Cancel = true;
+                // }
             }
         }
 

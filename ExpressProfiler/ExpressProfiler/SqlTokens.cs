@@ -1,9 +1,10 @@
 ﻿//Traceutils assembly
 //writen by Locky, 2009. 
+
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     class Sqltokens
     {

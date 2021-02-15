@@ -1,4 +1,4 @@
-﻿namespace ExpressProfiler
+﻿namespace EdtDbProfiler
 {
     partial class MainForm
     {
@@ -57,6 +57,10 @@
             this.tbStayOnTop = new System.Windows.Forms.ToolStripButton();
             this.tbTransparent = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.reTextData = new System.Windows.Forms.RichTextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyAllToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,29 +97,26 @@
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterCapturedEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearCapturedFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.reTextData = new System.Windows.Forms.RichTextBox();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.slEPS});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 640);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 721);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1344, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1280, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -150,14 +151,14 @@
             this.tbTransparent});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1344, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1280, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // tbClear
             // 
             this.tbClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbClear.Image = global::ExpressProfiler.Properties.Resources.imClear;
+            this.tbClear.Image = global::EdtDbProfiler.Properties.Resources.imClear;
             this.tbClear.ImageTransparentColor = System.Drawing.Color.Silver;
             this.tbClear.Name = "tbClear";
             this.tbClear.Size = new System.Drawing.Size(23, 22);
@@ -176,7 +177,7 @@
             this.tbScroll.CheckOnClick = true;
             this.tbScroll.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tbScroll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbScroll.Image = global::ExpressProfiler.Properties.Resources.imScroll;
+            this.tbScroll.Image = global::EdtDbProfiler.Properties.Resources.imScroll;
             this.tbScroll.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbScroll.Name = "tbScroll";
             this.tbScroll.Size = new System.Drawing.Size(23, 22);
@@ -193,7 +194,7 @@
             this.tbStart.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbRun,
             this.tbRunWithFilters});
-            this.tbStart.Image = global::ExpressProfiler.Properties.Resources.imStart;
+            this.tbStart.Image = global::EdtDbProfiler.Properties.Resources.imStart;
             this.tbStart.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbStart.Name = "tbStart";
             this.tbStart.Size = new System.Drawing.Size(32, 22);
@@ -217,7 +218,7 @@
             // tbPause
             // 
             this.tbPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPause.Image = global::ExpressProfiler.Properties.Resources.imPause;
+            this.tbPause.Image = global::EdtDbProfiler.Properties.Resources.imPause;
             this.tbPause.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbPause.Name = "tbPause";
             this.tbPause.Size = new System.Drawing.Size(23, 22);
@@ -227,7 +228,7 @@
             // tbStop
             // 
             this.tbStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbStop.Image = global::ExpressProfiler.Properties.Resources.imStop;
+            this.tbStop.Image = global::EdtDbProfiler.Properties.Resources.imStop;
             this.tbStop.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbStop.Name = "tbStop";
             this.tbStop.Size = new System.Drawing.Size(23, 22);
@@ -243,7 +244,7 @@
             // 
             this.tbFilterEvents.CheckOnClick = true;
             this.tbFilterEvents.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbFilterEvents.Image = global::ExpressProfiler.Properties.Resources.filter;
+            this.tbFilterEvents.Image = global::EdtDbProfiler.Properties.Resources.filter;
             this.tbFilterEvents.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbFilterEvents.Name = "tbFilterEvents";
             this.tbFilterEvents.Size = new System.Drawing.Size(23, 22);
@@ -342,9 +343,58 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1344, 591);
-            this.splitContainer1.SplitterDistance = 300;
+            this.splitContainer1.Size = new System.Drawing.Size(1280, 672);
+            this.splitContainer1.SplitterDistance = 341;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.reTextData);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer2.Panel2.Controls.Add(this.webBrowser1);
+            this.splitContainer2.Size = new System.Drawing.Size(1280, 327);
+            this.splitContainer2.SplitterDistance = 638;
+            this.splitContainer2.TabIndex = 6;
+            // 
+            // reTextData
+            // 
+            this.reTextData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reTextData.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reTextData.Location = new System.Drawing.Point(0, 0);
+            this.reTextData.Name = "reTextData";
+            this.reTextData.ReadOnly = true;
+            this.reTextData.Size = new System.Drawing.Size(638, 327);
+            this.reTextData.TabIndex = 6;
+            this.reTextData.Text = "";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBox1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(638, 153);
+            this.richTextBox1.TabIndex = 7;
+            this.richTextBox1.Text = "";
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 159);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(638, 168);
+            this.webBrowser1.TabIndex = 1;
             // 
             // timer1
             // 
@@ -397,7 +447,7 @@
             this.filterToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1344, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1280, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -424,7 +474,7 @@
             this.startTraceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnRun,
             this.mnRunWithFilters});
-            this.startTraceToolStripMenuItem.Image = global::ExpressProfiler.Properties.Resources.imStart;
+            this.startTraceToolStripMenuItem.Image = global::EdtDbProfiler.Properties.Resources.imStart;
             this.startTraceToolStripMenuItem.Name = "startTraceToolStripMenuItem";
             this.startTraceToolStripMenuItem.Size = new System.Drawing.Size(324, 22);
             this.startTraceToolStripMenuItem.Text = "&Start trace";
@@ -446,7 +496,7 @@
             // 
             // pauseTraceToolStripMenuItem
             // 
-            this.pauseTraceToolStripMenuItem.Image = global::ExpressProfiler.Properties.Resources.imPause;
+            this.pauseTraceToolStripMenuItem.Image = global::EdtDbProfiler.Properties.Resources.imPause;
             this.pauseTraceToolStripMenuItem.Name = "pauseTraceToolStripMenuItem";
             this.pauseTraceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
             this.pauseTraceToolStripMenuItem.Size = new System.Drawing.Size(324, 22);
@@ -455,7 +505,7 @@
             // 
             // stopTraceToolStripMenuItem
             // 
-            this.stopTraceToolStripMenuItem.Image = global::ExpressProfiler.Properties.Resources.imStop;
+            this.stopTraceToolStripMenuItem.Image = global::EdtDbProfiler.Properties.Resources.imStop;
             this.stopTraceToolStripMenuItem.Name = "stopTraceToolStripMenuItem";
             this.stopTraceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
             this.stopTraceToolStripMenuItem.Size = new System.Drawing.Size(324, 22);
@@ -562,7 +612,7 @@
             // 
             // clearTraceWindowToolStripMenuItem
             // 
-            this.clearTraceWindowToolStripMenuItem.Image = global::ExpressProfiler.Properties.Resources.imClear;
+            this.clearTraceWindowToolStripMenuItem.Image = global::EdtDbProfiler.Properties.Resources.imClear;
             this.clearTraceWindowToolStripMenuItem.Name = "clearTraceWindowToolStripMenuItem";
             this.clearTraceWindowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Delete)));
@@ -642,48 +692,11 @@
             this.clearCapturedFiltersToolStripMenuItem.Text = "Clear Captured Filters";
             this.clearCapturedFiltersToolStripMenuItem.Click += new System.EventHandler(this.clearCapturedFiltersToolStripMenuItem_Click);
             // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.reTextData);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.webBrowser1);
-            this.splitContainer2.Size = new System.Drawing.Size(1344, 287);
-            this.splitContainer2.SplitterDistance = 670;
-            this.splitContainer2.TabIndex = 6;
-            // 
-            // reTextData
-            // 
-            this.reTextData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.reTextData.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reTextData.Location = new System.Drawing.Point(0, 0);
-            this.reTextData.Name = "reTextData";
-            this.reTextData.ReadOnly = true;
-            this.reTextData.Size = new System.Drawing.Size(670, 287);
-            this.reTextData.TabIndex = 6;
-            this.reTextData.Text = "";
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(670, 287);
-            this.webBrowser1.TabIndex = 1;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1344, 662);
+            this.ClientSize = new System.Drawing.Size(1280, 743);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
@@ -691,7 +704,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "Phils Express Profiler v1.0";
+            this.Text = "EDT DB Profiler";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip1.ResumeLayout(false);
@@ -701,13 +714,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -781,6 +794,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox reTextData;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

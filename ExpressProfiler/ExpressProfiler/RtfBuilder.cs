@@ -1,12 +1,13 @@
 ﻿//Traceutils assembly
 //writen by Locky, 2009. 
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Text;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     class RtfBuilder
     {

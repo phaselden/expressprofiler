@@ -1,10 +1,11 @@
 ﻿//Traceutils assembly
 //writen by Locky, 2009.
+
 using System;
 using System.Drawing;
 using System.Text;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     public class YukonLexer
     {
@@ -60,7 +61,7 @@ namespace ExpressProfiler
             Array.Sort(_identifiersArray);
         }
         
-        public void FillRichEdit(System. Windows.Forms.RichTextBox rich, string value)
+        public void FillRichEdit(System.Windows.Forms.RichTextBox rich, string value)
         {
             rich.Text = "";
             Line = value;

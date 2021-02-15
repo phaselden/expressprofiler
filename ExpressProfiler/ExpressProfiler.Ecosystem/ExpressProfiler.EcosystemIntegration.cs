@@ -3,15 +3,15 @@ using System.Diagnostics;
 using System.IO;
 using RedGate.SIPFrameworkShared;
 
-namespace ExpressProfiler.Ecosystem
+namespace EdtDbProfiler.Ecosystem
 {
-    class ExpressProfiler : ISsmsAddin4
+    class EdtDbProfiler : ISsmsAddin4
     {
-        public string Version { get { return "2.0"; } }
-        public string Description { get { return "Ecosystem integration for ExpressProfiler"; } }
-        public string Name { get { return "ExpressProfiler"; } }
-        public string Author { get { return "ExpressProfiler"; } }
-        public string Url { get { return "https://expressprofiler.codeplex.com/"; } }
+        public string Version => "2.0";
+        public string Description => "Ecosystem integration for ExpressProfiler";
+        public string Name => "ExpressProfiler";
+        public string Author => "ExpressProfiler";
+        public string Url => "https://expressprofiler.codeplex.com/";
 
         internal static ISsmsFunctionalityProvider6 m_Provider;
         public void OnLoad(ISsmsExtendedFunctionalityProvider provider)
@@ -36,7 +36,7 @@ namespace ExpressProfiler.Ecosystem
         {
             string param ="";
             IConnectionInfo2 con;
-            if(ExpressProfiler.m_Provider.ObjectExplorerWatcher.TryGetSelectedConnection(out con))
+            if(EdtDbProfiler.m_Provider.ObjectExplorerWatcher.TryGetSelectedConnection(out con))
             {
                 string server = con.Server;
                 string user = con.UserName;
@@ -50,12 +50,12 @@ namespace ExpressProfiler.Ecosystem
         }
 
         private readonly ICommandImage m_CommandImage = new CommandImageForEmbeddedResources(typeof(ExecuteExpressProfiler).Assembly, "ExpressProfiler.Ecosystem.Resources.Icon.png");
-        public string Name {get { return "ExpressProfilerExecute"; }}
-        public string Caption { get { return "ExpressProfiler"; } }
-        public string Tooltip { get { return "Execute ExpressProfiler"; } }
-        public ICommandImage Icon { get { return m_CommandImage; } }
-        public string[] DefaultBindings { get { return new string[] { }; } }
-        public bool Visible { get { return true; } }
-        public bool Enabled { get { return true; } }
+        public string Name => "ExpressProfilerExecute";
+        public string Caption => "ExpressProfiler";
+        public string Tooltip => "Execute ExpressProfiler";
+        public ICommandImage Icon => m_CommandImage;
+        public string[] DefaultBindings => new string[] { };
+        public bool Visible => true;
+        public bool Enabled => true;
     }
 }

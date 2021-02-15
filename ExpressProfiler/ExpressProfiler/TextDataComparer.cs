@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace ExpressProfiler.EventComparers
+namespace EdtDbProfiler.EventComparers
 {
 	public class TextDataComparer : IComparer<ListViewItem>
 	{

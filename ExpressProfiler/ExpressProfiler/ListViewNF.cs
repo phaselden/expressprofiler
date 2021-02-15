@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace ExpressProfiler
+namespace EdtDbProfiler
 {
     class ListViewNF : ListView
     {
